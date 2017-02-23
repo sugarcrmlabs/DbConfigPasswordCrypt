@@ -14,7 +14,7 @@ class EnvCrypt
             if ($key !== false) {
                 if (strlen($key) > 56 || strlen($key) < 4) {
                     $GLOBALS['log']->security("Retrieved encryption key from ENV variable 'sugar_blowfish_key'. It's  " . strlen($key)
-                            . " chars long but should be more than 4 chars but less than 56 chars long (32 to 448 bits). Will use the file system based one.");
+                            . " chars long but should be between 4 and 56 chars long (32 to 448 bits). Will use the file system based one.");
                 } else {
                     $result = $key;
                 }
