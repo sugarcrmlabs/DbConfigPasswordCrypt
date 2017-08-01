@@ -25,7 +25,7 @@ class CustomMysqliManager extends MysqliManager {
 
                     Your database password is currently NOT encrypted. Please follow the two steps below to set up the encrypted password:
 
-                    STEP 1: Change value of variable \$sugar_config['dbconfig]['db_password'] = '".$encodedPassword."'; on config.php
+                    STEP 1: Change value of variable \$sugar_config['dbconfig']['db_password'] = '".$encodedPassword."'; on config.php
                     STEP 2: Append \$sugar_config['dbconfig']['use_encryption'] = true; to file config_override.php
 
                     ********** IMPORTANT ENCRYPTION INSTRUCTIONS - END **********");

@@ -1,5 +1,7 @@
 <?php
 
+use Sugarcrm\Sugarcrm\Security\Crypto\Blowfish;
+
 class EnvCrypt
 {
     protected static function getKey()
@@ -7,7 +9,7 @@ class EnvCrypt
         global $sugar_config;
 
         // populate default key as a file system based blowfish
-        $result = blowfishGetKey('custom_encrypt');
+        $result = Blowfish::getKey('custom_encrypt');
 
         if(empty($sugar_config['dbconfig']['filesystem_encryption_only'])) {
             $key = getenv('sugar_blowfish_key');
@@ -26,22 +28,18 @@ class EnvCrypt
         return $result;
     }
 
-    public static function encrypt($data, $key = '', $encryptor = null)
+    public static function encrypt($data, $key = '')
     {
         if (empty($key)) {
             $key = self::getKey();
         }
 
-        if (empty($encryptor)) {
-            $encryptor = new Crypt_Blowfish($key);
-        }
-
-        $encrypted = $encryptor->encrypt($data);
+        $encrypted = Blowfish::encode($key, $data);
 
         return base64_encode($encrypted);
     }
 
-    public static function decrypt($data, $key = '', $encryptor = null)
+    public static function decrypt($data, $key = '')
     {
         $data = base64_decode($data);
 
@@ -49,10 +47,6 @@ class EnvCrypt
             $key = self::getKey();
         }
 
-        if (empty($encryptor)) {
-            $encryptor = new Crypt_Blowfish($key);
-        }
-
-        return trim($encryptor->decrypt($data));
+        return trim(Blowfish::decode($key, $data));
     }
 }
